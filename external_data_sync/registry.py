@@ -19,7 +19,6 @@ register
 autodiscover
     Find synchronizers and fill registry.
 """
-from .models import SynchronizerRecord
 
 
 __all__ = ('SynchronizerRegistry', 'registry', 'register', 'autodiscover')
@@ -40,6 +39,7 @@ class SynchronizerRegistry(dict):
 
     def register(self, synchronizer):
         """Register a synchronizer."""
+        from .models import SynchronizerRecord
         record, created = SynchronizerRecord.objects.get_or_create(
             name=synchronizer.__name__,
             defaults={
