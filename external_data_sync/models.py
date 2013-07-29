@@ -11,16 +11,6 @@ class DataSource(models.Model):
 
     """
 
-    #
-    # TODO consider https://bitbucket.org/wnielson/django-chronograph/src
-    #  for syncing.
-    #
-    # OR
-    #  http://docs.celeryproject.org/en/master/getting-started/introduction.html
-    # (via)
-    #  http://chase-seibert.github.com/blog/2010/07/09/djangocelery-quickstart-or-how-i-learned-to-stop-using-cron-and-love-celery.html
-    #
-
     description = models.TextField(_('description'),
         blank=True,
         null=True,
