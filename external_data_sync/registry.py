@@ -47,6 +47,7 @@ class SynchronizerRegistry(dict):
                 'synchronizer_module': synchronizer.__module__,
             }
         )
+        record.save()
         self[synchronizer.__name__] = record
 
 
@@ -73,6 +74,17 @@ def _autodiscover(registry):
             # attempting to import it, otherwise we want it to bubble up.
             if module_has_submodule(mod, 'synchronizers'):
                 raise
+
+
+def _clean_synchronizer_records(registry):
+    """Clean up database, remove anything not in the registry"""
+    from .models import SynchronizerRecord
+
+    registered_synchronizers = registry.values()
+    for sr in SynchronizerRecord.objects.all():
+        if not sr in registered_synchronizers:
+            sr.delete()
+
 
 registry = SynchronizerRegistry()
 
@@ -110,6 +122,7 @@ def autodiscover():
     DataSourceOneSynchronizer will be registered.
     """
     _autodiscover(registry)
+    _clean_synchronizer_records(registry)
 
 
 def register(*args, **kwargs):
