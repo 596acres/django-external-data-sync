@@ -12,14 +12,6 @@ from django.utils.timezone import now
 logger = logging.getLogger(__name__)
 
 
-def find_synchronizer(source_name):
-    target_synchronizer = source_name + 'synchronizer'
-    for synchronizer in Synchronizer.__subclasses__():
-        if synchronizer.__name__.lower() == target_synchronizer.lower():
-            return synchronizer
-    return None
-
-
 def _should_synchronize(data_source):
     if data_source.synchronize_in_progress:
         return False
@@ -38,7 +30,7 @@ def _update_next_synchronize(data_source):
 
 def do_synchronize(data_source):
     if not _should_synchronize(data_source): return
-    synchronizer = find_synchronizer(data_source.name)(data_source)
+    synchronizer = data_source.get_synchronizer()
 
     data_source.synchronize_in_progress = True
     data_source.save()

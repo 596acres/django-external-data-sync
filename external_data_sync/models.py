@@ -4,6 +4,37 @@ from django.utils.translation import ugettext_lazy as _
 from .synchronizers import do_synchronize
 
 
+class SynchronizerRecord(models.Model):
+    """
+    A record of a synchronizer class. Added dynamically by the
+    SynchronizerRegistry.
+    """
+
+    name = models.CharField(_('name'),
+        max_length=128,
+        help_text=_('The display name for this synchronizer record.'),
+    )
+
+    synchronizer_module = models.CharField(_('synchronizer module'),
+        max_length=512,
+        help_text=_('The python module where synchronizer_class resides.'),
+    )
+
+    synchronizer_class = models.CharField(_('synchronizer class'),
+        max_length=512,
+        help_text=_('The python class for this synchronizer record.'),
+    )
+
+    def __unicode__(self):
+        return u'%s' % (self.name,)
+
+    def load(self):
+        from django.utils.importlib import import_module
+
+        mod = import_module(self.synchronizer_module)
+        return getattr(mod, self.synchronizer_class)
+
+
 class DataSource(models.Model):
     """
     An external data source that is periodically updated. Will not be updated
@@ -28,6 +59,13 @@ class DataSource(models.Model):
     ordering = models.IntegerField(_('ordering'),
         default=1,
         help_text=_('The ordering of this source, lower numbers coming first.'),
+    )
+
+    synchronizer_record = models.ForeignKey('SynchronizerRecord',
+        verbose_name=_('synchronizer record'),
+        blank=True,
+        null=True,
+        help_text=_('The synchronizer to use with this data source.'),
     )
 
     synchronize_in_progress = models.BooleanField(_('synchronize in progress'),
@@ -58,6 +96,10 @@ class DataSource(models.Model):
         help_text=_('The batch size that should be updated each time this '
                     'source is synchronized'),
     )
+
+    def get_synchronizer(self):
+        """Instantiate this data source's synchronizer"""
+        return self.synchronizer_record.load()(self)
 
     def synchronize(self):
         do_synchronize(self)
