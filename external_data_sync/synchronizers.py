@@ -1,6 +1,6 @@
 """
 Infrastructure for periodically synchronizing data sources. Users of this
-framework should define a Synchronizer sublcass for every DataSource subclass.
+framework should define a Synchronizer subclass for every DataSource subclass.
 
 """
 from datetime import timedelta
