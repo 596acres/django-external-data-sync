@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages
 import os
 
+import external_data_sync
+
 
 CLASSIFIERS = [
     'Development Status :: 4 - Beta',
@@ -18,6 +20,7 @@ setup(
     author="Eric Brelsford",
     author_email="eric@596acres.org",
     name='django-external-data-sync',
+    version=external_data_sync.__version__,
     description=('A simple Django app for periodically locally synchronizing '
                  'data that is stored externally.'),
     long_description=open(os.path.join(os.path.dirname(__file__), 'README.rst')).read(),
