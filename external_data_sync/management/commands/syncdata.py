@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
         for data_source_cls in DataSource.__subclasses__():
             for data_source in data_source_cls.objects.filter(enabled=True):
-                print 'sync: Synchronizing %s' % data_source.get_name_display()
+                print 'sync: Synchronizing %s' % data_source.name
                 try:
                     data_source.synchronize()
                 except Exception:
