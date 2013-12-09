@@ -16,11 +16,11 @@ Django >= 1.3.1
 Installation
 ------------
 
-Install using pip:
+Install using pip::
 
     pip install git+git://github.com/596acres/django-external-data-sync@master
 
-Add to `INSTALLED_APPS`:
+Add to `INSTALLED_APPS`::
 
     INSTALLED_APPS += (
         'external_data_sync',
@@ -28,14 +28,14 @@ Add to `INSTALLED_APPS`:
 
 Then run `migrate` or `syncdb` on `external_data_sync`.
 
-In `urls.py` add:
+In `urls.py` add::
 
     import external_data_sync
 
     external_data_sync.autodiscover()
 
 For each app that will contain synchronizers, add `synchronizers.py`, subclass 
-`synchronizers.Synchronizer`, then register each synchronizer with:
+`synchronizers.Synchronizer`, then register each synchronizer with::
 
     import external_data_sync
 
