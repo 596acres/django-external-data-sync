@@ -34,6 +34,8 @@ In ``urls.py`` add::
 
     external_data_sync.autodiscover()
 
+Create concrete DataSource models (`for example`_).
+
 For each app that will contain synchronizers, add ``synchronizers.py``, subclass 
 ``synchronizers.Synchronizer``, then register each synchronizer with::
 
@@ -59,3 +61,4 @@ License, version 3 <http://www.gnu.org/licenses/agpl.html>`_.
 .. _`596 Acres`: http://596acres.org/
 .. _`Living Lots`: https://github.com/596acres/django-livinglots
 .. _`Grounded in Philly`: http://groundedinphilly.org/
+.. _`for example`: https://github.com/ebrelsford/v2v/tree/master/vacant_to_vibrant/phillydata_local
