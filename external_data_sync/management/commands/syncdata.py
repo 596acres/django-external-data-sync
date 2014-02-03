@@ -3,7 +3,7 @@ import traceback
 
 from django.core.management.base import BaseCommand
 
-from ...models import DataSource
+from ...models import BaseDataSource
 
 
 class Command(BaseCommand):
@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write('sync: Running syncdata')
 
-        for data_source_cls in DataSource.__subclasses__():
+        for data_source_cls in BaseDataSource.__subclasses__():
             for data_source in data_source_cls.objects.filter(enabled=True):
                 print 'sync: Synchronizing %s' % data_source.name
                 try:

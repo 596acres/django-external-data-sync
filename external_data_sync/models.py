@@ -35,7 +35,7 @@ class SynchronizerRecord(models.Model):
         return getattr(mod, self.synchronizer_class)
 
 
-class DataSource(models.Model):
+class BaseDataSource(models.Model):
     """
     An external data source that is periodically updated. Will not be updated
     unless a Synchronizer is defined that will do the updating.

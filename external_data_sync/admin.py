@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 
-class DataSourceAdmin(admin.ModelAdmin):
+class BaseDataSourceAdmin(admin.ModelAdmin):
     actions = ('make_healthy', 'enable', 'disable',)
     list_display = ('name', 'synchronize_in_progress', 'healthy', 'enabled',
                     'ordering', 'last_synchronized', 'next_synchronize',)
